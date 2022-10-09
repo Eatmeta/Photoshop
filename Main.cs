@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 using MyPhotoshop.Parameters;
 
@@ -14,14 +15,28 @@ namespace MyPhotoshop
                 "Осветление/затемнение",
                 (original, parameters) => original * parameters.Coefficient
             ));
-            
+
             window.AddFilter(new PixelFilter<EmptyParameters>(
                 "Оттенки серого",
                 (original, parameters) =>
                 {
                     var lightness = (original.R + original.G + original.B) / 3;
-                    return new Pixel(lightness,lightness,lightness);
+                    return new Pixel(lightness, lightness, lightness);
                 }
+            ));
+
+            window.AddFilter(new TransformFilter<EmptyParameters>(
+                "Отражение по горизонтали",
+                (originalSize) => originalSize,
+                (originalSize, originalPixel) =>
+                    new Point(originalSize.Width - 1 - originalPixel.X, originalPixel.Y)
+            ));
+
+            window.AddFilter(new TransformFilter<EmptyParameters>(
+                "Поворот на 90 против часовой стрелке",
+                (originalSize) => new Size(originalSize.Height, originalSize.Width),
+                (originalSize, originalPixel) =>
+                    new Point(originalSize.Width - originalPixel.Y - 1, originalPixel.X)
             ));
             Application.Run(window);
         }
