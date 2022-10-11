@@ -2,6 +2,7 @@
 using System.Drawing;
 using MyPhotoshop.Interfaces;
 using MyPhotoshop.Parameters;
+using MyPhotoshop.Transform;
 
 namespace MyPhotoshop
 {
@@ -9,25 +10,23 @@ namespace MyPhotoshop
         where TParameters : IParameters, new()
     {
         public string Name { get; }
-        public Func<Size, TParameters, Size> SizeTransform { get; }
-        public Func<Size, Point, TParameters, Point?> PixelTransform { get; }
+        public ITransformer<TParameters> Transformer { get; }
 
-        public TransformFilter(string name, Func<Size, TParameters, Size> sizeTransform,
-            Func<Size, Point, TParameters, Point?> pixelTransform)
+        public TransformFilter(string name, ITransformer<TParameters> transformer)
         {
             Name = name;
-            SizeTransform = sizeTransform;
-            PixelTransform = pixelTransform;
+            Transformer = transformer;
         }
-
+        
         protected override Photo Process(Photo original, TParameters values)
         {
             var originalSize = new Size(original.Width, original.Height);
-            var result = new Photo(SizeTransform(originalSize, values).Width, SizeTransform(originalSize, values).Height);
+            Transformer.Prepare(originalSize, values);
+            var result = new Photo(Transformer.ResultSize.Width, Transformer.ResultSize.Height);
             for (var x = 0; x < result.Width; x++)
             for (var y = 0; y < result.Height; y++)
             {
-                var newPixel = PixelTransform(originalSize, new Point(x, y), values);
+                var newPixel = Transformer.MapPoint(new Point(x, y));
                 if (newPixel.HasValue)
                     result[x, y] = original[newPixel.Value.X, newPixel.Value.Y];
             }
