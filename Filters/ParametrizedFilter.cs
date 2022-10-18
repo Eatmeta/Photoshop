@@ -1,4 +1,5 @@
 ﻿using MyPhotoshop.Interfaces;
+using MyPhotoshop.Parameters;
 
 namespace MyPhotoshop
 {

@@ -49,6 +49,7 @@
     <Compile Include="Parameters\EmptyParameters.cs" />
     <Compile Include="Parameters\LighteningParameters.cs" />
     <Compile Include="Parameters\ParameterInfo.cs" />
+    <Compile Include="Parameters\ParametersExtensions.cs" />
     <Compile Include="Parameters\RotationParameters.cs" />
     <Compile Include="Transform\FreeTransformer.cs" />
     <Compile Include="Transform\RotateTransformer.cs" />
