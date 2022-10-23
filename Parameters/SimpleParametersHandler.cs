@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using MyPhotoshop.Interfaces;
 
 namespace MyPhotoshop.Parameters
@@ -20,12 +22,16 @@ namespace MyPhotoshop.Parameters
         public TParameters CreateParameters(double[] values)
         {
             var parameters = new TParameters();
+            
             var properties = parameters
                 .GetType()
                 .GetProperties()
                 .Where(z => z.GetCustomAttributes(typeof(ParameterInfo), false).Length > 0)
                 .ToArray();
 
+            if (properties.Length != values.Length)
+                throw new ArgumentException();
+            
             for (var i = 0; i < values.Length; i++)
                 properties[i].SetValue(parameters, values[i], new object[0]);
             

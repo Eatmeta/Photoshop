@@ -1,4 +1,6 @@
-﻿namespace MyPhotoshop.Interfaces
+﻿using System.Collections.Generic;
+
+namespace MyPhotoshop.Interfaces
 {
     public interface IParametersHandler<TParameters>
     {
