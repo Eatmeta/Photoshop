@@ -27,7 +27,9 @@ namespace Profiler
             Test("Test with reflection without static handler", values => handler.CreateParameters(values), 100_000);
             var staticHandler = new StaticParametersHandler<LighteningParameters>();
             Test("Test with reflection with static handler", values => staticHandler.CreateParameters(values), 100_000);
-            Test("Test without reflection", values => new LighteningParameters {Coefficient = values[0]}, 100_000);
+            var expressionHandler = new ExpressionsParametersHandler<LighteningParameters>();
+            Test("Test with reflection with expression handler", values => expressionHandler.CreateParameters(values), 100_0000);
+            Test("Test without reflection", values => new LighteningParameters {Coefficient = values[0]}, 100_0000);
         }
     }
 }

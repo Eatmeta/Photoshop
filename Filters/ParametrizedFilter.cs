@@ -10,7 +10,7 @@ namespace MyPhotoshop
     public abstract class ParametrizedFilter<TParameters> : IFilter
         where TParameters : IParameters, new()
     {
-        private IParametersHandler<TParameters> Handler { get; } = new SimpleParametersHandler<TParameters>();
+        private IParametersHandler<TParameters> Handler { get; } = new ExpressionsParametersHandler<TParameters>();
         public ParameterInfo[] GetParameters() => Handler.GetDescription();
 
         public Photo Process(Photo original, double[] values)

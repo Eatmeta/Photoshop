@@ -51,6 +51,7 @@
     <Compile Include="Interfaces\ITransformer.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Parameters\EmptyParameters.cs" />
+    <Compile Include="Parameters\ExpressionsParametersHandler.cs" />
     <Compile Include="Parameters\LighteningParameters.cs" />
     <Compile Include="Parameters\ParameterInfo.cs" />
     <Compile Include="Parameters\RotationParameters.cs" />
