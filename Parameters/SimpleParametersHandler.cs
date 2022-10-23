@@ -3,12 +3,12 @@ using MyPhotoshop.Interfaces;
 
 namespace MyPhotoshop.Parameters
 {
-    public static class ParametersExtensions
+    public class SimpleParametersHandler<TParameters> : IParametersHandler<TParameters>
+        where TParameters : IParameters, new()
     {
-        public static ParameterInfo[] GetDescription(this IParameters parameters)
+        public ParameterInfo[] GetDescription()
         {
-            return parameters
-                .GetType()
+            return typeof(TParameters)
                 .GetProperties()
                 .Select(z => z.GetCustomAttributes(typeof(ParameterInfo), false))
                 .Where(z => z.Length > 0)
@@ -17,16 +17,19 @@ namespace MyPhotoshop.Parameters
                 .ToArray();
         }
 
-        public static void SetValues(this IParameters parameters, double[] inputs)
+        public TParameters CreateParameters(double[] values)
         {
+            var parameters = new TParameters();
             var properties = parameters
                 .GetType()
                 .GetProperties()
                 .Where(z => z.GetCustomAttributes(typeof(ParameterInfo), false).Length > 0)
                 .ToArray();
 
-            for (var i = 0; i < inputs.Length; i++)
-                properties[i].SetValue(parameters, inputs[i], new object[0]);
+            for (var i = 0; i < values.Length; i++)
+                properties[i].SetValue(parameters, values[i], new object[0]);
+            
+            return parameters;
         }
     }
 }

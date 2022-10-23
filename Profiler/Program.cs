@@ -7,25 +7,25 @@ namespace Profiler
 {
     class Program
     {
-        static void Test(string description, Action<double[], LighteningParameters> action, int n)
+        static void Test(string description, Func<double[], LighteningParameters> action, int n)
         {
             var array = new double[] {0};
-            var obj = new LighteningParameters();
-            action(array, obj);
+            action(array);
             var watch = new Stopwatch();
             watch.Start();
             for (var i = 0; i < n; i++)
             {
-                action(array, obj);
+                action(array);
             }
             watch.Stop();
-            Console.WriteLine(description + ": " + 1000 * (double) watch.ElapsedMilliseconds / n + " ms");
+            Console.WriteLine(description + ": " + 1000 * (double) watch.ElapsedMilliseconds / n + " ns");
         }
 
         static void Main(string[] args)
         {
-            Test("Test with reflection", (values, pars) => pars.SetValues(values), 100_000);
-            Test("Test without reflection", (values, pars) => pars.Coefficient = values[0], 100_000);
+            var handler = new SimpleParametersHandler<LighteningParameters>();
+            Test("Test with reflection", values => handler.CreateParameters(values), 100_000);
+            Test("Test without reflection", values => new LighteningParameters {Coefficient = values[0]}, 100_000);
         }
     }
 }
