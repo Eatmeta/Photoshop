@@ -21,14 +21,17 @@
     <PlatformTarget>x86</PlatformTarget>
     <Externalconsole>true</Externalconsole>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == '1|AnyCPU' ">
+    <OutputPath>bin\1\</OutputPath>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
     <Externalconsole>true</Externalconsole>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
